@@ -60,6 +60,9 @@ const Home = () => {
                 ))
             }
             </ul> 
+            <div className="mt-4">
+            <Link to="/admin">Add a Reastaurant</Link>
+            </div>
         </div>
     )
 }
