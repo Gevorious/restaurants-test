@@ -34,7 +34,7 @@ const Home = () => {
 
            const sum = votesARR.reduce((a, b) => a + b, 0);
            const average = +sum/votesARR.length
-           return average
+           return average.toFixed(1)
         }
     }
     
@@ -52,7 +52,7 @@ const Home = () => {
                         <p className="ml-3 py-1 px-4">{item.data.desc}</p>
                             </div>
                             <div className="rating col-md-1">
-                                <span>{getRating(item.data.votes)}</span>
+                                <span>{getRating(item.data.votes) ? getRating(item.data.votes) : "no votes"}</span>
                             </div>
                         </div>
                         </Link>
