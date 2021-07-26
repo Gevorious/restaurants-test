@@ -1,16 +1,15 @@
 import React, {useState} from 'react'
 import './Rating.css'
 
-import APIService from '../../services/APIService'
+import { connect } from 'react-redux'
+import { updateVotes } from '../../actions/dataManagementActions'
 
-const Rating = ({item, dbkey}) => {
-
-    const service = new APIService()
+const Rating = ({updateVotes, dbkey}) => {
     const [voted, setVoted] = useState(false)
 
     const handleVote = (e) => {
         const vote = e.target.attributes.vote.value
-        service.updateData(vote, dbkey)
+        updateVotes(vote, dbkey)
         setVoted(true)
     }
 
@@ -30,4 +29,4 @@ const Rating = ({item, dbkey}) => {
                     )
 }
 
-export default Rating
+export default connect(null, {updateVotes})(Rating)

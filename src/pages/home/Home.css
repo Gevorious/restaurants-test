@@ -15,7 +15,6 @@
 
 .restaurants-list h3{
     color: black;
-    text-decoration: none;
 }
 
 .rating {
@@ -28,6 +27,10 @@
 
 .restaurants-list-item:hover {
     box-shadow: 0px 0px 5px 0px grey
+}
+
+.restaurants-list-item a{
+    text-decoration: none !important;
 }
 
 .rating span {

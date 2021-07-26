@@ -1,29 +1,25 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import "./Home.css"
 
-import APIService from '../../services/APIService'
+import { fetchRestaurants } from '../../actions/dataManagementActions'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-const Home = () => {
-    const [data, setData] = useState(null)
-
-    const services = new APIService()
-
+const Home = ({fetchRestaurants, state}) => {    
     useEffect(() => {
-        services.getData().then(data => {
-            setData(transformData(data))
-        })
-    }, [])
-
-   const transformData = data => {
+        fetchRestaurants();
+    }, [fetchRestaurants])
+    
+    const transformData = data => {
         const dataARR = []
         if(data) { 
             for(let key in data){
                 dataARR.push({data: data[key], key })
-                }
+            }
         }
-      return dataARR
+        return dataARR
     }
+     const data = transformData(state.restaurants)
 
     const getRating =(votes) => {
         const votesARR = []
@@ -67,4 +63,10 @@ const Home = () => {
     )
 }
 
-export default Home
+const mapStateToProps = state => {
+    return{
+     state
+    }
+   }
+
+export default connect(mapStateToProps, { fetchRestaurants })(Home)

@@ -14,7 +14,7 @@ const InnerPage = (props) => {
     useEffect(() => {
         setData(state.data)
         setKey(state.key)
-    }, [])
+    }, [state.data, state.key])
 
    const placeMark = {
     // The geometry description.
@@ -45,7 +45,7 @@ const InnerPage = (props) => {
                         <Placemark {...placeMark} />
                         </Map>
                     </YMaps>
-                    <Rating item={data} dbkey={key}/>
+                    <Rating dbkey={key}/>
                 </div>
                 </div>
                

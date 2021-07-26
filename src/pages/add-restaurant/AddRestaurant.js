@@ -1,14 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import './AddRestaurant.css'
 
+import { addRestaurant } from '../../actions/dataManagementActions'
+import { connect } from 'react-redux'
+
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
-import APIService from '../../services/APIService'
 import uuid from 'react-uuid';
 
-const AddRestaurant = () => {
+const AddRestaurant = (props) => {
 
-    const services = new APIService()
+   
 
+    const ymap = useRef(null)
 
     const [cords, setCords] = useState([40.17761177565706, 44.51255285696921])
     const [title, setTitle] = useState('')
@@ -22,7 +25,13 @@ const AddRestaurant = () => {
          },
         options: {
             draggable: true,
-        }
+            pane: "places",
+            openBalloonOnClick: true,
+            openEmptyBalloon: true,
+        },
+        properties: {
+            iconCaption: "loading...",
+        },
     }
 
     const handleSubmit = (e) => {
@@ -34,11 +43,12 @@ const AddRestaurant = () => {
             id: uuid(),
            votes: {}
         }
-        services.sendData(data).then(res=>{console.log(res)})
+        props.addRestaurant(data)
     }
 
     const handleDrag = (e) => {
        const cords = [...e.get('target').geometry.getCoordinates()]
+       console.log(ymap.current.ymaps)
        setCords(cords)
     }
 
@@ -66,9 +76,10 @@ const AddRestaurant = () => {
                     </div>
                     <div className="pl-5 my-5 col-md-6">
                     <label className="map-label">Mark your restaurant on map</label>
-                    <YMaps>
+                    <YMaps ref={ymap}>
                         <Map width="100%" height="60vh"  defaultState={{ center: cords, zoom: 15 }}>
                         <Placemark {...placeMark} onDragEnd={handleDrag}/>
+                      
                         </Map>
                      </YMaps>
                     </div>
@@ -80,4 +91,4 @@ const AddRestaurant = () => {
     )
 }
 
-export default AddRestaurant
+export default connect(null, {addRestaurant})(AddRestaurant)
