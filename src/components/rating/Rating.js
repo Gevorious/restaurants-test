@@ -1,15 +1,16 @@
 import React, {useState} from 'react'
 import './Rating.css'
 
-import { connect } from 'react-redux'
-import { updateVotes } from '../../actions/dataManagementActions'
+import { useDispatch } from 'react-redux'
+import { updateVotes } from '../../redux/restaurantSlice'
 
-const Rating = ({updateVotes, dbkey}) => {
+const Rating = ({ dbkey }) => {
     const [voted, setVoted] = useState(false)
+    const dispatch = useDispatch()
 
     const handleVote = (e) => {
         const vote = e.target.attributes.vote.value
-        updateVotes(vote, dbkey)
+        dispatch(updateVotes({vote, dbkey}))
         setVoted(true)
     }
 
@@ -29,4 +30,4 @@ const Rating = ({updateVotes, dbkey}) => {
                     )
 }
 
-export default connect(null, {updateVotes})(Rating)
+export default Rating

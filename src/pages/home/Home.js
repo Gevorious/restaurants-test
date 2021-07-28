@@ -1,14 +1,16 @@
 import React, {useEffect} from 'react'
 import "./Home.css"
 
-import { fetchRestaurants } from '../../actions/dataManagementActions'
-import { connect } from 'react-redux'
+import { fetchRestaurants } from '../../redux/restaurantSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-const Home = ({fetchRestaurants, state}) => {    
+const Home = () => {    
+    const dispatch = useDispatch()
+    const restaurants = useSelector((state)=> state.restaurants)
     useEffect(() => {
-        fetchRestaurants();
-    }, [fetchRestaurants])
+        dispatch(fetchRestaurants())
+    }, [dispatch])
     
     const transformData = data => {
         const dataARR = []
@@ -19,7 +21,8 @@ const Home = ({fetchRestaurants, state}) => {
         }
         return dataARR
     }
-     const data = transformData(state.restaurants)
+
+     const data = transformData(restaurants)
 
     const getRating =(votes) => {
         const votesARR = []
@@ -40,7 +43,7 @@ const Home = ({fetchRestaurants, state}) => {
            <ul className="restaurants-list list-group pt-5">
             {
                 data?.map((item)=>(
-                    <li className="restaurants-list-item list-group-item p-0" key={item.data.id}>
+                    <li  key={item.data.id} className="restaurants-list-item list-group-item p-0">
                         <Link to={{pathname: `/home:${item.data.id}`, state: item}}>
                         <div className="row mx-0 justify-content-between">
                             <div className="col-md-10">
@@ -48,7 +51,7 @@ const Home = ({fetchRestaurants, state}) => {
                         <p className="ml-3 py-1 px-4">{item.data.desc}</p>
                             </div>
                             <div className="rating col-md-1">
-                                <span>{getRating(item.data.votes) ? getRating(item.data.votes) : "no votes"}</span>
+                            {getRating(item.data.votes) ? <span> {getRating(item.data.votes)} </span> : "no votes"}
                             </div>
                         </div>
                         </Link>
@@ -56,17 +59,11 @@ const Home = ({fetchRestaurants, state}) => {
                 ))
             }
             </ul> 
-            <div className="mt-4">
+            <div className="mt-4 mb-5">
             <Link to="/admin">Add a Reastaurant</Link>
             </div>
         </div>
     )
 }
 
-const mapStateToProps = state => {
-    return{
-     state
-    }
-   }
-
-export default connect(mapStateToProps, { fetchRestaurants })(Home)
+export default Home

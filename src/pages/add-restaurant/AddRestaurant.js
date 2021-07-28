@@ -1,15 +1,14 @@
 import React, {useState, useRef} from 'react'
 import './AddRestaurant.css'
 
-import { addRestaurant } from '../../actions/dataManagementActions'
-import { connect } from 'react-redux'
+import { addRestaurant } from '../../redux/restaurantSlice'
+import { useDispatch } from 'react-redux'
 
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import uuid from 'react-uuid';
 
-const AddRestaurant = (props) => {
-
-   
+const AddRestaurant = () => {
+    const dispatch = useDispatch()
 
     const ymap = useRef(null)
 
@@ -43,12 +42,11 @@ const AddRestaurant = (props) => {
             id: uuid(),
            votes: {}
         }
-        props.addRestaurant(data)
+        dispatch(addRestaurant(data))
     }
 
     const handleDrag = (e) => {
        const cords = [...e.get('target').geometry.getCoordinates()]
-       console.log(ymap.current.ymaps)
        setCords(cords)
     }
 
@@ -91,4 +89,4 @@ const AddRestaurant = (props) => {
     )
 }
 
-export default connect(null, {addRestaurant})(AddRestaurant)
+export default AddRestaurant
