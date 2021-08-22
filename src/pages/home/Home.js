@@ -4,6 +4,13 @@ import "./Home.css"
 import { fetchRestaurants } from '../../redux/restaurantSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import {motion} from 'framer-motion'
+
+const itemVariants = {
+    init: {
+        
+    }
+}
 
 const Home = () => {    
     const dispatch = useDispatch()
@@ -39,11 +46,24 @@ const Home = () => {
     
     return (
         <div className="home container pt-5">
-        <h1>Restaurants</h1>
+        <motion.h1 
+        drag 
+        dragConstraints={{left: 0, right: 0, top: 0, bottom: 0}}
+        dragElastic={.2}
+        >
+            Restaurants
+        </motion.h1>
            <ul className="restaurants-list list-group pt-5">
             {
-                data?.map((item)=>(
-                    <li  key={item.data.id} className="restaurants-list-item list-group-item p-0">
+                data?.map((item, i)=>(
+                    <motion.li 
+                        initial={{y: `${-i*100}%`, opacity: 0}} 
+                        animate={{y: 0, zIndex: Math.ceil(10/(i+1)), opacity: 1}}
+                        exit={{opacity: 0, transition:{delay: i*0.2, duration: .3, ease: "easeInOut"}}}
+                        transition={{delay: i*0.1, type: 'spring', stiffness: 150}} 
+                        key={item.data.id} 
+                        className="restaurants-list-item list-group-item p-0"
+                    >
                         <Link to={{pathname: `/home:${item.data.id}`, state: item}}>
                         <div className="row mx-0 justify-content-between">
                             <div className="col-md-10">
@@ -55,7 +75,7 @@ const Home = () => {
                             </div>
                         </div>
                         </Link>
-                    </li>
+                    </motion.li>
                 ))
             }
             </ul> 

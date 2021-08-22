@@ -1,15 +1,22 @@
 import React, {useState} from 'react'
 import './Rating.css'
+import {motion} from 'framer-motion'
 
 import { useDispatch } from 'react-redux'
 import { updateVotes } from '../../redux/restaurantSlice'
+
+const starVariants = {
+    hover: {
+        scale: [1, 1.5, 1.1, 1.4, 1.2, 1.3],
+        transition:{ duration: .7}
+    }
+}
 
 const Rating = ({ dbkey }) => {
     const [voted, setVoted] = useState(false)
     const dispatch = useDispatch()
 
-    const handleVote = (e) => {
-        const vote = e.target.attributes.vote.value
+    const handleVote = (vote) => {
         dispatch(updateVotes({vote, dbkey}))
         setVoted(true)
     }
@@ -19,11 +26,11 @@ const Rating = ({ dbkey }) => {
                   {voted 
                   ? <p>thank you!</p> 
                   : <>
-                  <span vote={5} onClick={handleVote}/>
-                   <span vote={4} onClick={handleVote}/>
-                   <span vote={3} onClick={handleVote}/>
-                   <span vote={2} onClick={handleVote}/>
-                   <span vote={1} onClick={handleVote}/>
+                    <motion.span variants={starVariants} whileHover="hover" onClick={()=>handleVote(5)}/>
+                    <motion.span variants={starVariants} whileHover="hover" onClick={()=>handleVote(4)}/>
+                    <motion.span variants={starVariants} whileHover="hover" onClick={()=>handleVote(3)}/>
+                    <motion.span variants={starVariants} whileHover="hover" onClick={()=>handleVote(2)}/>
+                    <motion.span variants={starVariants} whileHover="hover" onClick={()=>handleVote(1)}/>
                    </>
                    }
                 </div>

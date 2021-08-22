@@ -1,24 +1,25 @@
 .stars {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
 }
 
 .stars p {
-    font-size: 1.2rem;
-    font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .stars span {
-    display: inline-block;
-    height: 32px;
-    width: 32px;
-    background-image: url('./img/star.svg');
-    cursor: pointer;
+  display: inline-block;
+  height: 32px;
+  width: 32px;
+  background-image: url("./img/star.svg");
+  cursor: pointer;
 }
 .stars span:hover {
-    background-image: url('./img/star-yellow.svg');
+  background-image: url("./img/star-yellow.svg");
 }
+
 .stars span:hover ~ span {
-    background-image: url('./img/star-yellow.svg');
+  background-image: url("./img/star-yellow.svg");
 }
