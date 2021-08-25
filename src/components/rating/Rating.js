@@ -8,7 +8,7 @@ import { updateVotes } from '../../redux/restaurantSlice'
 const starVariants = {
     hover: {
         scale: [1, 1.5, 1.1, 1.4, 1.2, 1.3],
-        transition:{ duration: .7}
+        transition:{ duration: .8, times: [0, .1, .25, .45, .7, 1 ], ease: "easeInOut"}
     }
 }
 

@@ -1,16 +1,13 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import "./Home.css"
 
 import { fetchRestaurants } from '../../redux/restaurantSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import {motion} from 'framer-motion'
+import { motion, AnimateSharedLayout } from 'framer-motion'
+import Accordion from '../../components/utils/Accordion'
+import Pointer from '../../components/pointer/Pointer'
 
-const itemVariants = {
-    init: {
-        
-    }
-}
 
 const Home = () => {    
     const dispatch = useDispatch()
@@ -19,6 +16,8 @@ const Home = () => {
         dispatch(fetchRestaurants())
     }, [dispatch])
     
+    const [hovered, setHovered] = useState(null)
+
     const transformData = data => {
         const dataARR = []
         if(data) { 
@@ -53,6 +52,7 @@ const Home = () => {
         >
             Restaurants
         </motion.h1>
+        <AnimateSharedLayout>
            <ul className="restaurants-list list-group pt-5">
             {
                 data?.map((item, i)=>(
@@ -63,22 +63,27 @@ const Home = () => {
                         transition={{delay: i*0.1, type: 'spring', stiffness: 150}} 
                         key={item.data.id} 
                         className="restaurants-list-item list-group-item p-0"
+                        onMouseEnter={()=>setHovered(item.data.id)}
                     >
-                        <Link to={{pathname: `/home:${item.data.id}`, state: item}}>
+                        <Pointer key={item.data.id} isHovered={hovered === item.data.id}/>
                         <div className="row mx-0 justify-content-between">
                             <div className="col-md-10">
-                        <h3 className="py-1 px-3">{item.data.title}</h3>
-                        <p className="ml-3 py-1 px-4">{item.data.desc}</p>
+                                <Accordion title={item.data.title}>
+                                    <p className="ml-3 py-1 px-4">{item.data.desc}</p>
+                                    <Link className="d-inline-block pb-2" to={{pathname: `/home:${item.data.id}`, state: item}}>
+                                        Visit Page
+                                    </Link>
+                                </Accordion>
                             </div>
                             <div className="rating col-md-1">
                             {getRating(item.data.votes) ? <span> {getRating(item.data.votes)} </span> : "no votes"}
                             </div>
                         </div>
-                        </Link>
                     </motion.li>
                 ))
             }
-            </ul> 
+            </ul>
+            </AnimateSharedLayout> 
             <div className="mt-4 mb-5">
             <Link to="/admin">Add a Reastaurant</Link>
             </div>

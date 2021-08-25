@@ -1,0 +1,8 @@
+.accordion-item {
+  overflow-y: hidden;
+}
+
+.accordion-item a {
+  font-weight: 600;
+  margin-left: 1rem;
+}

@@ -9,19 +9,19 @@ import {motion} from 'framer-motion'
 
 const mapVariants = {
     init: {
-        y: `-100vh`,
+        scale: 0,
         opacity: 0
     },
     end: {
-        y: 0,
+        scale: 1,
         opacity: 1,
-        transition: {type: 'spring', stiffness: 80}
+        transition: {opacity:{duration: .4}, scale:{type: "spring", stiffness: 80}}
     }
 }
 
 const ratingVariants = {
     init: {
-        x: `100vh`,
+        x: `50%`,
         opacity: 0
     },
     end: {
